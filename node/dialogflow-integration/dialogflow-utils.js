@@ -159,6 +159,10 @@ class DialogflowService extends EventEmitter {
       });
 
       responseStream.on("data", (data) => {
+        if (data.recognitionResult &&
+          data.recognitionResult.messageType === 'END_OF_SINGLE_UTTERANCE') {
+          detectStream.end();
+        }
         if (
           data.recognitionResult &&
           data.recognitionResult.transcript &&
